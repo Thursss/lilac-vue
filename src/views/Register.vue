@@ -1,9 +1,9 @@
 <template>
-  <div class="lilac lilac-login">
+  <div class="lilac lilac-register">
     <el-container>
       <div class="lilac-from">
         <div class="lilac-from-main">
-          <div class="lilac-from-login">
+          <div class="lilac-from-register">
             <router-link to='/'>
               <el-image style="width: 100px; height: 100px" :src="require('../assets/images/logo/true.png')"
                 fit="contain"></el-image>
@@ -18,7 +18,7 @@
             </p>
           </div>
           <div class="lark-form-content">
-            <el-form ref="login_form" :rules="form_rules" :model="form_data" label-width="80px">
+            <el-form ref="register_form" :rules="form_rules" :model="form_data" label-width="80px">
               <el-form-item prop="account" label-width="0">
                 <el-input v-model="form_data.account" placeholder="手机号" prefix-icon="el-icon-user">
                 </el-input>
@@ -28,26 +28,24 @@
                 </el-input>
               </el-form-item>
               <el-form-item label-width="0">
-                <el-button style="width: 100%" type="primary" @click="onSubmit('login_form')" :loading="loading">登录
+                <el-button style="width: 100%" type="primary" @click="onSubmit('register_form')" :loading="loading">注册
                 </el-button>
               </el-form-item>
             </el-form>
           </div>
-          <div class="login-foot">
-            <router-link to='/register' class="register">找回密码</router-link>
-            <router-link to='/register' class="register">注册</router-link>
+          <div class="register-foot">
+            <router-link to='/login' class="login">直接登录</router-link>
           </div>
         </div>
       </div>
     </el-container>
   </div>
 </template>
-
 <script>
-  import { login } from '@/api/export.js'
+  import { login, register } from '@/api/export.js'
   import { Message } from 'element-ui'
   export default {
-    name: 'Login',
+    name: 'Register',
     data() {
       return {
         form_data: {
@@ -56,7 +54,8 @@
         },
         form_rules: {
           account: [
-            { required: true, message: '输入正确手机号', trigger: 'blur' }
+            { required: true, message: '输入正确手机号', trigger: 'blur' },
+            { min: 11, max: 11, message: '输入正确手机号', trigger: 'blur' }
           ],
           password: [
             { required: true, message: '输入密码', trigger: 'change' },
@@ -73,20 +72,32 @@
         this.$refs[formName].validate(async (valid) => {
           try {
             if (valid) {
-              let result = await login(this.form_data)
+              let result = await register(this.form_data)
               this.loading = false
               let {
                 data,
                 errno
               } = result
               if (errno === 0) {
-                if (data.status === 200) {
-                  //保存token
-                  localStorage.setItem('Token', data.token)
-                  //用户首页
+                let result = await login(this.form_data)
+                let {
+                  data,
+                  errno
+                } = result
+                if (errno === 0) {
+                  if (data.status === 200) {
+                    //保存token
+                    localStorage.setItem('Token', data.token)
+                    //用户首页
+                    this.$router.push({
+                      path: '/dashboard'
+                    })
+                  }
+                }
+                if (errno === -1) {
                   this.$router.push({
-                    path: '/dashboard'
-                  })
+                      path: '/login'
+                    })
                 }
               }
               if (errno === -1) {
@@ -111,14 +122,11 @@
           }
         })
       },
-    },
-    created() {
     }
   }
 </script>
-
 <style lang="less" scoped>
-  .lilac-login {
+  .lilac-register {
     width: 100%;
     height: 100%;
     background-color: #fafafa;
@@ -172,8 +180,8 @@
         }
       }
 
-      .login-foot {
-        .register {
+      .register-foot {
+        .login {
           color: #5e485f;
           text-decoration: none;
           padding: 0 10px;
