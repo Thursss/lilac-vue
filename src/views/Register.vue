@@ -1,6 +1,6 @@
 <template>
-  <div class="lilac lilac-register">
-    <el-container>
+  <section class="lilac lilac-register">
+    <div class="container">
       <div class="lilac-from">
         <div class="lilac-from-main">
           <div class="lilac-from-register">
@@ -38,8 +38,8 @@
           </div>
         </div>
       </div>
-    </el-container>
-  </div>
+    </div>
+  </section>
 </template>
 <script>
   import { login, register } from '@/api/export.js'
@@ -68,36 +68,44 @@
     },
     methods: {
       onSubmit(formName) {
-        this.loading = true
-        this.$refs[formName].validate(async (valid) => {
+        let _this = this
+        _this.loading = true
+        _this.$refs[formName].validate(async (valid) => {
           try {
             if (valid) {
-              let result = await register(this.form_data)
+              let result = await register(_this.form_data)
               this.loading = false
               let {
                 data,
                 errno
               } = result
               if (errno === 0) {
-                let result = await login(this.form_data)
+                let result = await login(_this.form_data)
                 let {
                   data,
                   errno
                 } = result
                 if (errno === 0) {
                   if (data.status === 200) {
-                    //保存token
-                    localStorage.setItem('Token', data.token)
-                    //用户首页
-                    this.$router.push({
-                      path: '/dashboard'
+                    Message({
+                      message: '注册成功',
+                      type: 'success',
+                      duration: 2000,
+                      onClose() {
+                        //保存token
+                        localStorage.setItem('Token', data.token)
+                        //用户首页
+                        _this.$router.push({
+                          path: '/dashboard'
+                        })
+                      }
                     })
                   }
                 }
                 if (errno === -1) {
                   this.$router.push({
-                      path: '/login'
-                    })
+                    path: '/login'
+                  })
                 }
               }
               if (errno === -1) {
@@ -133,6 +141,8 @@
   }
 
   .lilac-from {
+    max-width: 450px;
+    text-align: center;
     margin: auto;
     padding-top: 40px;
 
@@ -158,7 +168,7 @@
 
       .lark-form-content {
         width: 400px;
-        margin-bottom: 30px;
+        margin: 30px auto 0;
 
         .el-input /deep/ input {
           &:hover {

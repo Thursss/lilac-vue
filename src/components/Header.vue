@@ -1,0 +1,157 @@
+<template>
+  <section class="lilac lilac-header">
+    <div class="clearfix header-container">
+      <div class="logo header-nav-left">
+        <router-link to='/dashboard' class="logo-link">
+          <el-image :src="require('@/assets/images/logo/true.png')" fit="contain">
+          </el-image>
+          <p class="logo-title">丁香</p>
+        </router-link>
+      </div>
+      <div class="header-nav header-nav-right">
+        <ul class="user-head-ul">
+          <li class="user-head-li user-head">
+            <el-dropdown>
+              <div class="user-head-but">
+                <el-avatar size="medium" :src="userInfo.user_image_url"></el-avatar>
+                <i class="el-icon-caret-bottom el-icon--right"></i>
+              </div>
+              <el-dropdown-menu class="user-head-menu" slot="dropdown">
+                <div class="user-head-info">
+                  <p class="user-name">{{ userInfo.user_name }}</p>
+                  <p class="user-description">{{ userInfo.user_description }}</p>
+                </div>
+                <el-dropdown-item icon="el-icon-user">
+                  <router-link to="/my">个人页面</router-link>
+                </el-dropdown-item>
+                <el-dropdown-item icon="el-icon-setting">
+                  <router-link to="/setting">设置</router-link>
+                </el-dropdown-item>
+                <el-dropdown-item icon="el-icon-switch-button">
+                  <a href="#" @click="logout">退出登录</a>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+  import { logout } from '@/api/export.js'
+  export default {
+    props: {
+      userInfo: {
+        type: Object,
+        default: () => { }
+      }
+    },
+    methods: {
+      logout() {
+        logout(this)
+      }
+    }
+  }
+</script>
+
+<style lang="less" scoped>
+  .lilac-header {
+    background-color: #fff;
+  }
+
+  .header-container {
+    width: 100%;
+    height: 60px;
+    max-width: 1216px;
+    margin: 0 auto;
+    padding: 0 16px;
+
+    .logo {
+      display: flex;
+      align-items: center;
+      float: left;
+      height: 100%;
+      min-width: 200px;
+      text-align: left;
+
+      .logo-link {
+        margin-right: 20px;
+
+        .el-image,
+        .logo-title {
+          display: inline-block;
+          vertical-align: middle;
+        }
+
+        .el-image {
+          margin-right: 10px;
+        }
+
+        .el-image /deep/ .el-image__inner {
+          width: auto;
+          height: 38px;
+        }
+
+        .logo-title {
+          line-height: 34px;
+          font-weight: bold;
+          font-size: 20px;
+          color: black;
+        }
+      }
+    }
+
+    .header-nav-right {
+      float: right;
+      height: 100%;
+      .user-head-ul {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding: 0 10px;
+
+        .user-head {
+          cursor: pointer;
+
+          .el-avatar,
+          i {
+            display: inline-block;
+            vertical-align: middle;
+          }
+        }
+      }
+    }
+  }
+
+  .user-head-menu {
+    color: #3f3140;
+    .user-head-info {
+      width: 250px;
+      padding: 15px 20px;
+      border-bottom: 1px solid #f5f5f5;
+      color: #3f3140;
+
+      .user-name {
+        margin-bottom: 10px;
+        line-height: 24px;
+        font-weight: bold;
+        font-size: 16px;
+      }
+    }
+
+    .el-dropdown-menu__item {
+      color: #3f3140;
+      transition: all .8s;
+      &:hover {
+        background-color: #f6edf6;
+      }
+
+      a {
+        color: #3f3140;
+        text-decoration: none;
+      }
+    }
+  }
+</style>

@@ -1,21 +1,22 @@
 <template>
-  <div class="lilac lilac-dashboard">
-    <router-link to="/login">登录</router-link>
-    <el-button @click="logout">退出登录</el-button>
-    <div>
-      {{ docList }}
+  <section class="lilac lilac-dashboard">
+    <div class="header">
+      <v-header :userInfo="userInfo"></v-header>
     </div>
-    <div>
-      {{ subList }}
+    <div class="main">
+     
     </div>
-    <div>
-      {{ userInfo }}
+    <div class="footer">
+      <v-footer></v-footer>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
-  import { logout, getDocList, getSubList, getUserInfo } from '@/api/export.js'
+  import Header from '@/components/Header.vue'
+  import Footer from '@/components/Footer.vue'
+
+  import { getDocList, getSubList, getUserInfo } from '@/api/export.js'
   import { Message } from 'element-ui'
 
   export default {
@@ -26,6 +27,10 @@
         subList: [],
         userInfo: {}
       }
+    },
+    components: {
+      'v-header': Header,
+      'v-footer': Footer
     },
     methods: {
       async getDocList(params = {}) {
@@ -68,7 +73,7 @@
             data,
             errno
           } = userInfo
-          
+
           if (errno === -1) {
             if (data.status === 401) {
               Message({
@@ -83,15 +88,12 @@
               })
             }
           }
-          if(errno === 0){
-            _this.userInfo = userInfo
+          if (errno === 0) {
+            _this.userInfo = userInfo.data
           }
         } catch (err) {
           console.log(err)
         }
-      },
-      logout() {
-        logout(this)
       }
     },
     created() {

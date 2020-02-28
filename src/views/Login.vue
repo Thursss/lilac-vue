@@ -1,11 +1,11 @@
 <template>
-  <div class="lilac lilac-login">
-    <el-container>
+  <section class="lilac lilac-login">
+    <div class="container">
       <div class="lilac-from">
         <div class="lilac-from-main">
           <div class="lilac-from-login">
             <router-link to='/'>
-              <el-image style="width: 100px; height: 100px" :src="require('../assets/images/logo/true.png')"
+              <el-image style="width: 100px; height: 100px" :src="require('@/assets/images/logo/true.png')"
                 fit="contain"></el-image>
             </router-link>
           </div>
@@ -34,13 +34,13 @@
             </el-form>
           </div>
           <div class="login-foot">
-            <router-link to='/register' class="register">找回密码</router-link>
+            <!-- <router-link to='/register' class="register">找回密码</router-link> -->
             <router-link to='/register' class="register">注册</router-link>
           </div>
         </div>
       </div>
-    </el-container>
-  </div>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -123,11 +123,10 @@
     height: 100%;
     background-color: #fafafa;
   }
-
   .lilac-from {
+    max-width: 450px;
     margin: auto;
     padding-top: 40px;
-
     .lilac-from-main {
       padding: 40px 20px 20px;
       border-radius: 3px;
@@ -150,7 +149,7 @@
 
       .lark-form-content {
         width: 400px;
-        margin-bottom: 30px;
+        margin: 30px auto 0;
 
         .el-input /deep/ input {
           &:hover {
