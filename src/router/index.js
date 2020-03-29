@@ -23,13 +23,13 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
-    beforeEnter(to, from, next) {
-      if(localStorage.getItem('Token')){
-        next('/dashboard')
-      }else{
-        next()
-      }
-    },
+    // beforeEnter(to, from, next) {
+    //   if(localStorage.getItem('Token')){
+    //     next('/dashboard')
+    //   }else{
+    //     next()
+    //   }
+    // },
     meta: { Title: '登录' }
   }
 ]

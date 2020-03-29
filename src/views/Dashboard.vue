@@ -4,7 +4,9 @@
       <v-header :userInfo="userInfo"></v-header>
     </div>
     <div class="main">
-     
+     <div class="nav-left">
+       
+     </div>
     </div>
     <div class="footer">
       <v-footer></v-footer>
