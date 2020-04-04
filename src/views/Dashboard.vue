@@ -4,9 +4,12 @@
       <v-header :userInfo="userInfo"></v-header>
     </div>
     <div class="main">
-     <div class="nav-left">
-       
-     </div>
+      <el-container class="container">
+        <el-aside width="200px">
+          <v-main-left></v-main-left>
+        </el-aside>
+        <el-main>Main</el-main>
+      </el-container>
     </div>
     <div class="footer">
       <v-footer></v-footer>
@@ -17,6 +20,7 @@
 <script>
   import Header from '@/components/Header.vue'
   import Footer from '@/components/Footer.vue'
+  import MainLeft from '@/components/MainLeft.vue'
 
   import { getDocList, getSubList, getUserInfo } from '@/api/export.js'
   import { Message } from 'element-ui'
@@ -32,7 +36,8 @@
     },
     components: {
       'v-header': Header,
-      'v-footer': Footer
+      'v-footer': Footer,
+      'v-main-left': MainLeft
     },
     methods: {
       async getDocList(params = {}) {
@@ -83,9 +88,9 @@
                 type: 'warning',
                 duration: 1000,
                 onClose() {
-                  _this.$router.push({
-                    path: '/login'
-                  })
+                  // _this.$router.push({
+                  //   path: '/login'
+                  // })
                 }
               })
             }
@@ -105,3 +110,12 @@
     }
   }
 </script>
+<style lang="less" scoped>
+  .main{
+    .container{
+      margin: auto;
+      width: 100%;
+      max-width: 1216px;
+    }
+  }
+</style>

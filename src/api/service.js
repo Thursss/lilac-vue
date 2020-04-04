@@ -4,7 +4,8 @@ import { Message, Loading } from 'element-ui'
 let loadingInstance = null
 
 let instance = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  // baseURL: 'http://127.0.0.1:3000/api',
+  baseURL: 'http://47.101.149.194/api',
   timeout: 3000
 })
 
