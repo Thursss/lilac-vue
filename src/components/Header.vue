@@ -61,7 +61,7 @@
               <router-link to="/dashboard">工作台</router-link>
             </li>
             <li class="menu-li">
-              <router-link to="/dashboard">发现</router-link>
+              <router-link to="/explore">发现</router-link>
             </li>
           </ul>
         </div>

@@ -3,12 +3,12 @@
     <div class="aside-list">
       <el-card class="list-ul" :body-style="{ padding: '10px' }">
         <div class="list-li">
-          <el-link class="active" icon="el-icon-s-cooperation" :underline="false">工作台</el-link>
+          <el-link icon="el-icon-s-cooperation" :class="{active: currentPage === 'dashboard'}" :underline="false" @click="curPage('dashboard')">工作台</el-link>
         </div>
       </el-card>
       <el-card class="list-ul" :body-style="{ padding: '10px' }">
         <div class="list-li">
-          <el-link icon="el-icon-edit" :underline="false">文档</el-link>
+          <el-link icon="el-icon-edit" :class="{active: currentPage === 'doc'}" :underline="false" @click="curPage('doc')">文档</el-link>
         </div>
         <div class="list-li" :body-style="{ padding: '10px' }">
           <el-link icon="el-icon-edit" :underline="false">知识库</el-link>
@@ -27,7 +27,17 @@
 </template>
 <script>
   export default {
-
+    data(){
+      return {
+        currentPage: 'dashboard'
+      }
+    },
+    methods: {
+      curPage(page) {
+        this.currentPage = page
+        this.$emit('curPage', page)
+      }
+    }
   }
 </script>
 

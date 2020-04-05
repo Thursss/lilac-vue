@@ -6,9 +6,12 @@
     <div class="main">
       <el-container class="container">
         <el-aside width="200px">
-          <v-main-left></v-main-left>
+          <v-main-left @curPage="curPage"></v-main-left>
         </el-aside>
-        <el-main>Main</el-main>
+        <el-main>
+          <v-main v-if="currentPage === 'dashboard'"></v-main>
+          <v-doc v-else-if="currentPage === 'doc'"></v-doc>
+        </el-main>
       </el-container>
     </div>
     <div class="footer">
@@ -21,6 +24,8 @@
   import Header from '@/components/Header.vue'
   import Footer from '@/components/Footer.vue'
   import MainLeft from '@/components/MainLeft.vue'
+  import Main from '@/views/Dashboard/Main.vue'
+  import Doc from '@/views/Dashboard/Doc.vue'
 
   import { getDocList, getSubList, getUserInfo } from '@/api/export.js'
   import { Message } from 'element-ui'
@@ -31,13 +36,16 @@
       return {
         docList: [],
         subList: [],
-        userInfo: {}
+        userInfo: {},
+        currentPage: 'dashboard'
       }
     },
     components: {
       'v-header': Header,
       'v-footer': Footer,
-      'v-main-left': MainLeft
+      'v-main-left': MainLeft,
+      'v-main': Main,
+      'v-doc': Doc,
     },
     methods: {
       async getDocList(params = {}) {
@@ -101,18 +109,21 @@
         } catch (err) {
           console.log(err)
         }
+      },
+      curPage(page) {
+        this.currentPage = page
       }
     },
     created() {
       this.getDocList()
       this.getSubList()
-      this.getUserInfo()
+      // this.getUserInfo()
     }
   }
 </script>
 <style lang="less" scoped>
-  .main{
-    .container{
+  .main {
+    .container {
       margin: auto;
       width: 100%;
       max-width: 1216px;

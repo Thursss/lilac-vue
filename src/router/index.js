@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Dashboard from '@/views/Dashboard.vue'
+import Dashboard from '@/views/Dashboard/Dashboard.vue'
 import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
+import Explore from '@/views/Explore.vue'
 
 Vue.use(VueRouter)
 
@@ -31,6 +32,12 @@ const routes = [
     //   }
     // },
     meta: { Title: '登录' }
+  },
+  {
+    path: '/explore',
+    name: "Explore",
+    component: Explore,
+    meta: {Title: '发现'}
   }
 ]
 
