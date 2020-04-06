@@ -71,25 +71,53 @@
 </template>
 
 <script>
-  import { logout } from '@/api/export.js'
+  import { logout, getUserInfo } from '@/api/export.js'
+  import { Message } from 'element-ui'
+
   export default {
-    props: {
-      userInfo: {
-        type: Object,
-        default() {
-          return {}
-        }
-      }
-    },
     data() {
       return {
+        userInfo: {},
         search: ''
       }
     },
     methods: {
+      async getUserInfo() {
+        let _this = this
+        try {
+          let userInfo = await getUserInfo()
+          let {
+            data,
+            errno
+          } = userInfo
+
+          if (errno === -1) {
+            if (data.status === 401) {
+              Message({
+                message: 'token过期，需要重新登录',
+                type: 'warning',
+                duration: 1000,
+                onClose() {
+                  // _this.$router.push({
+                  //   path: '/login'
+                  // })
+                }
+              })
+            }
+          }
+          if (errno === 0) {
+            _this.userInfo = userInfo.data
+          }
+        } catch (err) {
+          console.log(err)
+        }
+      },
       logout() {
         logout(this)
       }
+    },
+    created() {
+      // this.getUserInfo()
     }
   }
 </script>
@@ -97,6 +125,7 @@
 <style lang="less" scoped>
   .lilac-header {
     background-color: #fff;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,.06);
   }
 
   .header-container {
@@ -177,6 +206,10 @@
             padding: 0 15px;
             a{
               text-decoration: none;
+              color: #000;
+              &.router-link-active{
+                font-weight: bold;
+              }
             }
           }
         }

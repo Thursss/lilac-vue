@@ -1,12 +1,12 @@
 <template>
   <section class="lilac lilac-dashboard">
     <div class="header">
-      <v-header :userInfo="userInfo"></v-header>
+      <v-header></v-header>
     </div>
     <div class="main">
       <el-container class="container">
         <el-main>Main</el-main>
-        <el-aside width="200px">
+        <el-aside width="300px">
           aside
         </el-aside>
       </el-container>

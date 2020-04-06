@@ -3,23 +3,32 @@
     <div class="aside-list">
       <el-card class="list-ul" :body-style="{ padding: '10px' }">
         <div class="list-li">
-          <el-link icon="el-icon-s-cooperation" :class="{active: currentPage === 'dashboard'}" :underline="false" @click="curPage('dashboard')">工作台</el-link>
+          <router-link
+            :class="{on: currentPath === '/dashboard'}"
+            to="/dashboard"
+          ><i class="el-icon-s-cooperation"></i>工作台</router-link>
         </div>
       </el-card>
       <el-card class="list-ul" :body-style="{ padding: '10px' }">
         <div class="list-li">
-          <el-link icon="el-icon-edit" :class="{active: currentPage === 'doc'}" :underline="false" @click="curPage('doc')">文档</el-link>
+          <router-link
+            :class="{on: currentPath === '/dashboard/doc'}"
+            to="/dashboard/doc"
+          ><i class="el-icon-document"></i>文档</router-link>
         </div>
         <div class="list-li" :body-style="{ padding: '10px' }">
-          <el-link icon="el-icon-edit" :underline="false">知识库</el-link>
+          <router-link
+            :class="{on: currentPath === '/dashboard/sub'}"
+            to="/dashboard/sub"
+          ><i class="el-icon-folder"></i>知识库</router-link>
         </div>
       </el-card>
       <el-card class="list-ul" :body-style="{ padding: '10px' }">
         <div class="list-li">
-          <el-link icon="el-icon-edit" :underline="false">关注</el-link>
-        </div>
-        <div class="list-li" :body-style="{ padding: '10px' }">
-          <el-link icon="el-icon-edit" :underline="false">收藏</el-link>
+          <router-link
+            :class="{on: currentPath === '/dashboard/**'}"
+            to=""
+          ><i class="el-icon-loading"></i>开发中</router-link>
         </div>
       </el-card>
     </div>
@@ -27,16 +36,13 @@
 </template>
 <script>
   export default {
-    data(){
-      return {
-        currentPage: 'dashboard'
+    props: {
+      currentPath: {
+        type: String,
+        default: '/dashboard'
       }
     },
     methods: {
-      curPage(page) {
-        this.currentPage = page
-        this.$emit('curPage', page)
-      }
     }
   }
 </script>
@@ -73,9 +79,15 @@
         a{
           display: block;
           margin: 0 15px;
+          color: #606266;
+          font-weight: 500;
+          font-size: 14px;
           line-height: 40px;
           transition: .2s;
-          &.active{
+          i{
+            margin:0 5px
+          }
+          &.on{
             color: #25b864;
             background: #f5f5f5;
             box-shadow: -10px 0 #f5f5f5;

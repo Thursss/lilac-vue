@@ -1,18 +1,20 @@
 <template>
   <section class="lilac lilac-dashboard">
     <div class="header">
-      <v-header :userInfo="userInfo"></v-header>
+      <v-header></v-header>
     </div>
     <div class="main">
-      <el-container class="container">
-        <el-aside width="200px">
-          <v-main-left @curPage="curPage"></v-main-left>
-        </el-aside>
-        <el-main>
-          <v-main v-if="currentPage === 'dashboard'"></v-main>
-          <v-doc v-else-if="currentPage === 'doc'"></v-doc>
-        </el-main>
-      </el-container>
+      <div class="container">
+        <el-row :gutter="20">
+          <el-col :span="6" class="main-left">
+            <v-main-left :currentPath="currentPath"></v-main-left>
+            </el-col>
+          <el-col :span="18" class="main-right">
+            <v-main v-if="currentPath === '/dashboard'"></v-main>
+            <v-doc v-else-if="currentPath === '/dashboard/doc'"></v-doc>
+          </el-col>
+        </el-row>
+      </div>
     </div>
     <div class="footer">
       <v-footer></v-footer>
@@ -27,8 +29,7 @@
   import Main from '@/views/Dashboard/Main.vue'
   import Doc from '@/views/Dashboard/Doc.vue'
 
-  import { getDocList, getSubList, getUserInfo } from '@/api/export.js'
-  import { Message } from 'element-ui'
+  import { getDocList, getSubList } from '@/api/export.js'
 
   export default {
     name: 'dashboard',
@@ -37,7 +38,7 @@
         docList: [],
         subList: [],
         userInfo: {},
-        currentPage: 'dashboard'
+        currentPath: '/dashboard'
       }
     },
     components: {
@@ -79,45 +80,16 @@
         } catch (err) {
           console.log(err)
         }
-      },
-      async getUserInfo() {
-        let _this = this
-        try {
-          let userInfo = await getUserInfo()
-          let {
-            data,
-            errno
-          } = userInfo
-
-          if (errno === -1) {
-            if (data.status === 401) {
-              Message({
-                message: 'token过期，需要重新登录',
-                type: 'warning',
-                duration: 1000,
-                onClose() {
-                  // _this.$router.push({
-                  //   path: '/login'
-                  // })
-                }
-              })
-            }
-          }
-          if (errno === 0) {
-            _this.userInfo = userInfo.data
-          }
-        } catch (err) {
-          console.log(err)
-        }
-      },
-      curPage(page) {
-        this.currentPage = page
       }
     },
+    beforeRouteUpdate (to,from, next) {
+      this.currentPath = to.path
+      next()
+    },
     created() {
+      this.currentPath = this.$route.path
       this.getDocList()
       this.getSubList()
-      // this.getUserInfo()
     }
   }
 </script>
@@ -127,6 +99,9 @@
       margin: auto;
       width: 100%;
       max-width: 1216px;
+      .main-right{
+        padding: 20px;
+      }
     }
   }
 </style>
